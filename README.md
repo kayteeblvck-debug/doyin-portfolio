@@ -2,9 +2,8 @@
 
 Personal portfolio site. Next.js 16, TypeScript, Tailwind CSS 4, Motion.
 
-Dark, black-and-white design with red used sparingly, set on a strict 12-column
-grid (faint column guides are visible behind the page). Newsreader for headings,
-Manrope for text. A public review wall, a contact form that emails you, and a
+Dark, black-and-white design with red used sparingly. Archivo throughout —
+bold block headings and readable body text. A public review wall, a contact form that emails you, and a
 résumé download.
 
 ---
@@ -62,10 +61,8 @@ button.
 
 ### Updating the photo
 
-The hero uses `public/adedoyin-omolola-portrait.png`, a cut-out of her portrait
-on a transparent background (it sits in a framed panel). Replace it with
-another transparent PNG of the same shape. `public/adedoyin-omolola.png` is the
-original photo, used for social share cards.
+Replace `public/adedoyin-omolola.png`. It is shown in a framed 4:5 crop, so a
+portrait photo with her face near the centre works best.
 
 ---
 

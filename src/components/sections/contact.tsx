@@ -3,7 +3,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { contact, sections, site } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { EASE, Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,8 @@ import {
   IconArrowRight,
   IconArrowUpRight,
   IconCheck,
+  IconLinkedIn,
+  IconMail,
 } from "@/components/ui/icons";
 import { useReducedMotion } from "@/lib/reduced-motion";
 
@@ -44,13 +45,10 @@ const EMPTY_FORM: FormState = {
   website: "",
 };
 
-/**
- * Bay one: margin label · bay two: direct lines · bays three–four: the form.
- */
 export function Contact() {
   const lines = [
-    { term: "Email", value: contact.email, href: `mailto:${contact.email}`, Icon: IconArrowUpRight },
-    { term: "LinkedIn", value: "Adedoyin Omolola", href: contact.linkedin, Icon: IconArrowUpRight, external: true },
+    { term: "Email", value: contact.email, href: `mailto:${contact.email}`, Icon: IconMail },
+    { term: "LinkedIn", value: "Adedoyin Omolola", href: contact.linkedin, Icon: IconLinkedIn, external: true },
     ...(site.cv
       ? [{ term: "Résumé", value: "Download PDF", href: site.cv, Icon: IconArrowDown, download: true }]
       : []),
@@ -58,42 +56,39 @@ export function Contact() {
 
   return (
     <Section id="contact">
-      <SectionHead {...sections.contact} />
-
-      <div className={`${GRID} gap-y-14`}>
-        <Reveal className="col-span-4 md:col-span-3">
-          <p className="label">Direct lines</p>
-        </Reveal>
-
-        <Reveal className="col-span-4 md:col-span-9 lg:col-span-3" delay={0.05}>
-          <ul className="border-b border-line">
-            {lines.map(({ term, value, href, Icon, external, download }) => (
-              <li key={term} className="border-t border-line">
-                <a
-                  href={href}
-                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  {...(download ? { download: true } : {})}
-                  className="group flex items-end justify-between gap-4 py-5"
-                >
-                  <span className="min-w-0">
-                    <span className="label block">{term}</span>
-                    <span className="mt-2 block truncate text-[15px] font-medium text-fg transition-colors duration-300 group-hover:text-white">
-                      {value}
+      <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+        <div className="lg:col-span-5">
+          <SectionHead {...sections.contact} />
+          <Reveal>
+            <ul className="space-y-3">
+              {lines.map(({ term, value, href, Icon, external, download }) => (
+                <li key={term}>
+                  <a
+                    href={href}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    {...(download ? { download: true } : {})}
+                    className="group flex items-center gap-4 rounded-lg border border-line-2 bg-raised px-5 py-4 transition-colors duration-200 hover:border-line-3"
+                  >
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-raised-2 text-fg-2 group-hover:text-fg">
+                      <Icon width={18} height={18} />
                     </span>
-                  </span>
-                  <Icon className="mb-1 shrink-0 text-fg-3 transition-colors duration-300 group-hover:text-red-hi" />
-                </a>
-              </li>
-            ))}
-            <li className="border-t border-line py-5">
-              <span className="label block">Based in</span>
-              <span className="mt-2 block text-[15px] font-medium text-fg-2">{site.location}</span>
-            </li>
-          </ul>
-        </Reveal>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-[13px] text-fg-3">{term}</span>
+                      <span className="block truncate text-[15.5px] font-semibold">{value}</span>
+                    </span>
+                    <IconArrowUpRight className="shrink-0 text-fg-4 transition-colors duration-200 group-hover:text-red-hi" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-5 text-[14.5px] text-fg-3">Based in {site.location}</p>
+          </Reveal>
+        </div>
 
-        <Reveal className="col-span-4 md:col-span-9 md:col-start-4 lg:col-span-6 lg:col-start-7" delay={0.1}>
-          <ContactForm />
+        <Reveal className="lg:col-span-7" delay={0.08}>
+          <div className="rounded-lg border border-line-2 bg-raised p-6 sm:p-8">
+            <ContactForm />
+          </div>
         </Reveal>
       </div>
     </Section>
@@ -155,12 +150,12 @@ function ContactForm() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: reduced ? 0 : 0.6, ease: EASE }}
         role="status"
-        className="border-t border-line-2 pt-8"
+        className="py-4"
       >
-        <span className="grid h-11 w-11 place-items-center border border-line-2 text-red-hi">
+        <span className="grid h-11 w-11 place-items-center rounded-full border border-line-3 text-red-hi">
           <IconCheck width={18} height={18} />
         </span>
-        <p className="display mt-8 text-[2.6rem]">Message sent.</p>
+        <p className="display mt-6 text-[2rem]">Message sent.</p>
         <p className="text-pretty mt-4 max-w-md text-[16px] leading-relaxed text-fg-2">
           Thanks for reaching out — it has landed in my inbox and I will reply to you directly.
         </p>
@@ -171,7 +166,7 @@ function ContactForm() {
             setCustomReason("");
             setStatus("idle");
           }}
-          className="ink-link mt-8 text-[14px] font-semibold"
+          className="text-link mt-6 text-[15px] font-semibold"
         >
           Send another message
         </button>
@@ -182,10 +177,10 @@ function ContactForm() {
   const noteId = "contact-reason-note";
 
   return (
-    <form onSubmit={submit} className="relative border-t border-line-2 pt-8">
+    <form onSubmit={submit} className="relative">
       <Honeypot value={form.website} onChange={(v) => set("website", v)} />
 
-      {/* Two fields, each one bay wide — their edges fall on the 7 and 10 lines */}
+      {/* Name and email side by side */}
       <div className="grid grid-cols-1 gap-x-5 gap-y-7 sm:grid-cols-2 sm:gap-x-6">
         <Field label="Name" htmlFor="contact-name" error={errors.name}>
           <input
@@ -217,15 +212,15 @@ function ContactForm() {
         </Field>
       </div>
 
-      {/* Reason — a 3 × 2 grid of tabs sharing one hairline, flush with the fields */}
+      {/* Reason — a 3 × 2 grid of options, the same width as the fields above */}
       <div className="mt-7">
-        <span id="contact-reason-label" className="label mb-2.5 block !text-fg-2">
+        <span id="contact-reason-label" className="mb-2 block text-[14px] font-medium">
           Reason for contact
         </span>
         <div
           role="group"
           aria-labelledby="contact-reason-label"
-          className="grid grid-cols-2 gap-px border border-line-2 bg-line-2 sm:grid-cols-3"
+          className="grid grid-cols-2 gap-px overflow-hidden rounded-md border border-line-2 bg-line-2 sm:grid-cols-3"
         >
           {REASONS.map((reason) => {
             const active = form.reason === reason;
@@ -235,13 +230,10 @@ function ContactForm() {
                 type="button"
                 aria-pressed={active}
                 onClick={() => set("reason", reason)}
-                className={`relative flex h-12 items-center px-4 text-left text-[13.5px] font-semibold transition-colors duration-300 ${
-                  active ? "bg-fg text-bg" : "bg-raised text-fg-2 hover:bg-raised-2 hover:text-fg"
+                className={`relative flex h-12 items-center justify-center px-3 text-center text-[14px] font-semibold transition-colors duration-200 ${
+                  active ? "bg-fg text-bg" : "bg-raised-2 text-fg-2 hover:bg-[#222] hover:text-fg"
                 }`}
               >
-                {active ? (
-                  <span aria-hidden className="absolute top-0 left-0 h-full w-[3px] bg-red" />
-                ) : null}
                 {reason}
               </button>
             );
@@ -319,7 +311,7 @@ function ContactForm() {
         </Button>
         <p className="text-[13.5px] text-fg-3">
           Or write to{" "}
-          <a href={`mailto:${contact.email}`} className="ink-link text-fg-2 hover:text-fg">
+          <a href={`mailto:${contact.email}`} className="text-link text-fg-2 hover:text-fg">
             {contact.email}
           </a>
         </p>

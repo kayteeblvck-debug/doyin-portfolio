@@ -104,9 +104,9 @@ export default function AdminPage() {
           }}
           className="w-full max-w-sm border-t-[3px] border-double border-line-2 pt-8"
         >
-          <div className="label">Moderation</div>
+          <div className="eyebrow">Moderation</div>
           <h1 className="display mt-3 text-4xl">Review admin</h1>
-          <p className="serif mt-3 text-[15px] text-fg-2 italic">
+          <p className="mt-3 text-[15px] text-fg-2 italic">
             Enter the ADMIN_TOKEN from your environment file.
           </p>
 
@@ -120,7 +120,7 @@ export default function AdminPage() {
           />
 
           {error ? (
-            <p role="alert" className="serif mt-3 text-sm text-red-hi italic">
+            <p role="alert" className="mt-3 text-sm text-red-hi italic">
               {error}
             </p>
           ) : null}
@@ -143,7 +143,7 @@ export default function AdminPage() {
     <main className="relative z-10 mx-auto min-h-screen w-full max-w-4xl px-6 py-16">
       <header className="flex flex-wrap items-end justify-between gap-4 border-t-[3px] border-b border-double border-t-line-2 border-b-line pt-8 pb-6">
         <div>
-          <div className="label">Moderation</div>
+          <div className="eyebrow">Moderation</div>
           <h1 className="display mt-3 text-4xl">Reviews</h1>
         </div>
         <div className="flex items-center gap-5 text-sm text-fg-3">
@@ -155,7 +155,7 @@ export default function AdminPage() {
               setAuthed(false);
               setToken("");
             }}
-            className="ink-link text-[12px] font-medium tracking-[0.14em] text-fg uppercase"
+            className="text-link text-[12px] font-medium tracking-[0.14em] text-fg uppercase"
           >
             Lock
           </button>
@@ -163,13 +163,13 @@ export default function AdminPage() {
       </header>
 
       {error ? (
-        <p role="alert" className="serif mt-5 text-sm text-red-hi italic">
+        <p role="alert" className="mt-5 text-sm text-red-hi italic">
           {error}
         </p>
       ) : null}
 
       {reviews.length === 0 ? (
-        <p className="serif mt-12 text-center text-[15px] text-fg-3 italic">
+        <p className="mt-12 text-center text-[15px] text-fg-3 italic">
           No reviews have been submitted yet.
         </p>
       ) : (
@@ -182,7 +182,7 @@ export default function AdminPage() {
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="serif text-[17px]">
+                    <span className="text-[17px]">
                       {review.anonymous ? "Anonymous" : review.name}
                     </span>
                     <span className="text-fg">
@@ -208,7 +208,7 @@ export default function AdminPage() {
                     </p>
                   ) : null}
 
-                  <p className="serif mt-3 text-[15px] leading-relaxed whitespace-pre-wrap text-fg-2 italic">
+                  <p className="mt-3 text-[15px] leading-relaxed whitespace-pre-wrap text-fg-2 italic">
                     {review.message}
                   </p>
 
@@ -268,14 +268,14 @@ export default function AdminPage() {
 
       <header className="mt-20 flex flex-wrap items-end justify-between gap-4 border-t-[3px] border-b border-double border-t-line-2 border-b-line pt-8 pb-6">
         <div>
-          <div className="label">Inbox</div>
+          <div className="eyebrow">Inbox</div>
           <h2 className="display mt-3 text-4xl">Messages</h2>
         </div>
         <span className="text-sm text-fg-3">{messages.length} received</span>
       </header>
 
       {messages.length === 0 ? (
-        <p className="serif mt-12 text-center text-[15px] text-fg-3 italic">
+        <p className="mt-12 text-center text-[15px] text-fg-3 italic">
           No messages have been sent yet.
         </p>
       ) : (
@@ -286,12 +286,12 @@ export default function AdminPage() {
               className="border-t border-line py-6 first:border-t-0"
             >
               <div className="flex flex-wrap items-center gap-2.5">
-                <span className="serif text-[17px]">
+                <span className="text-[17px]">
                   {message.name}
                 </span>
                 <a
                   href={`mailto:${message.email}`}
-                  className="ink-link text-xs text-fg"
+                  className="text-link text-xs text-fg"
                 >
                   {message.email}
                 </a>
@@ -304,7 +304,7 @@ export default function AdminPage() {
                   </span>
                 ) : null}
               </div>
-              <p className="serif mt-3 text-[15px] leading-relaxed whitespace-pre-wrap text-fg-2 italic">
+              <p className="mt-3 text-[15px] leading-relaxed whitespace-pre-wrap text-fg-2 italic">
                 {message.message}
               </p>
               <p className="mt-3 text-[11px] text-fg-3">

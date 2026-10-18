@@ -1,32 +1,29 @@
 "use client";
 
 import { philosophy, sections } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 
-/**
- * Set on a raised full-bleed band so it reads as its own chapter, not a
- * continuation of Education. Four principles, one per bay.
- */
+/** Follows the banded Education section on the plain ground, so it reads as a new chapter. */
 export function Philosophy() {
   return (
-    <Section id="philosophy" band>
+    <Section id="philosophy">
       <SectionHead {...sections.philosophy} />
 
-      <ol className={`${GRID} gap-y-14`}>
+      <ol className="grid gap-5 md:grid-cols-2">
         {philosophy.map((principle, i) => (
-          <li key={principle.index} className="col-span-4 md:col-span-6 lg:col-span-3">
-            <Reveal delay={0.07 * i} className="group h-full border-t border-line-2 pt-6">
-              <span className="display tnum numeral-outline block text-[4.5rem] leading-none transition-[-webkit-text-stroke-color] duration-500 group-hover:[-webkit-text-stroke-color:var(--red-hi)]">
+          <li key={principle.index}>
+            <Reveal
+              delay={0.05 * (i % 2)}
+              className="flex h-full gap-5 rounded-lg border border-line-2 bg-raised p-7 sm:p-8"
+            >
+              <span className="display tnum shrink-0 text-[1.5rem] leading-[1.2] text-red-hi">
                 {principle.index}
               </span>
-              <h3 className="display text-balance mt-8 text-[1.6rem] leading-[1.15] lg:min-h-[2.3em]">
-                {principle.title}
-              </h3>
-              <p className="text-pretty mt-4 text-[15px] leading-[1.75] text-fg-2">
-                {principle.body}
-              </p>
+              <div>
+                <h3 className="display text-[1.3rem] leading-[1.25]">{principle.title}</h3>
+                <p className="text-pretty mt-3 text-[16px] leading-[1.7] text-fg-2">{principle.body}</p>
+              </div>
             </Reveal>
           </li>
         ))}

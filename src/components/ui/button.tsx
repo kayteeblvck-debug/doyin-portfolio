@@ -3,20 +3,18 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 /**
- * Square buttons, 48px tall, set in medium-weight sentence case.
- *
- *   solid    white block; turns red on hover
- *   line     1px outline; brightens on hover
+ *   solid    white button; turns red on hover
+ *   line     outlined; fills slightly on hover
  */
 type Variant = "solid" | "line";
 
 const variants: Record<Variant, string> = {
   solid: "bg-fg text-bg hover:bg-red hover:text-white",
-  line: "border border-line-3 text-fg hover:border-fg hover:bg-white/[0.04]",
+  line: "border border-line-3 text-fg hover:border-fg-3 hover:bg-white/[0.04]",
 };
 
 const shared =
-  "group relative inline-flex h-12 items-center justify-center gap-3 px-6 text-[14px] font-semibold tracking-[0.01em] transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] disabled:cursor-not-allowed disabled:opacity-50";
+  "group relative inline-flex h-12 items-center justify-center gap-2.5 rounded-md px-6 text-[15px] font-semibold transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function LinkButton({
   href,

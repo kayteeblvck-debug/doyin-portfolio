@@ -3,16 +3,14 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useRef, useState, type KeyboardEvent } from "react";
 import { roles, sections, type Role } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { EASE, Reveal } from "@/components/ui/reveal";
-import { IconArrowRight, IconPlus } from "@/components/ui/icons";
+import { IconPlus } from "@/components/ui/icons";
 import { useMediaQuery } from "@/lib/media";
 import { useReducedMotion } from "@/lib/reduced-motion";
 
 /**
- * Large screens: a vertical tab list in bays one–two and the selected role in
- * bays three–four, starting on the column-7 guide line.
+ * Large screens: roles as vertical tabs on the left, the selected role on the right.
  * Smaller screens: the same list becomes an accordion.
  */
 export function Experience() {
@@ -37,28 +35,27 @@ export function Experience() {
   };
 
   return (
-    <Section id="experience">
+    <Section id="experience" band>
       <SectionHead {...sections.experience} />
 
-      <div className={GRID}>
-        <Reveal className="col-span-4 md:col-span-12 lg:col-span-6">
+      <div className="grid gap-6 lg:grid-cols-12">
+        <Reveal className="lg:col-span-5">
           <div
             role={wide ? "tablist" : undefined}
             aria-orientation={wide ? "vertical" : undefined}
             aria-label={wide ? "Roles" : undefined}
             onKeyDown={wide ? onKeyDown : undefined}
-            className="border-b border-line"
+            className="space-y-2"
           >
             {roles.map((role, i) => {
               const isOn = wide ? selected === i : expanded === i;
               return (
-                <div key={role.title} className="relative border-t border-line">
-                  <span
-                    aria-hidden
-                    className={`absolute -top-px left-0 h-px w-full origin-left bg-red-hi transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-                      isOn ? "scale-x-100" : "scale-x-0"
-                    }`}
-                  />
+                <div
+                  key={role.title}
+                  className={`overflow-hidden rounded-lg border transition-colors duration-200 ${
+                    isOn ? "border-line-3 bg-raised-2" : "border-line-2 bg-raised hover:border-line-3"
+                  }`}
+                >
                   <button
                     ref={(el) => {
                       tabs.current[i] = el;
@@ -78,37 +75,23 @@ export function Experience() {
                           "aria-controls": `role-detail-${i}`,
                           onClick: () => setExpanded(isOn ? null : i),
                         })}
-                    className="group grid w-full grid-cols-[1fr_auto] items-start gap-x-4 gap-y-2 py-5 text-left sm:grid-cols-[10rem_1fr_auto]"
+                    className="relative flex w-full items-start justify-between gap-4 px-5 py-4 text-left"
                   >
-                    <span className="label tnum col-span-2 pt-[3px] !tracking-[0.1em] whitespace-nowrap sm:col-span-1">{role.period}</span>
+                    {isOn ? (
+                      <span aria-hidden className="absolute inset-y-3 left-0 w-[3px] rounded-r bg-red-hi" />
+                    ) : null}
                     <span className="min-w-0">
-                      <span
-                        className={`block text-[15.5px] leading-snug font-semibold transition-colors duration-300 ${
-                          isOn ? "text-fg" : "text-fg-2 group-hover:text-fg"
-                        }`}
-                      >
-                        {role.title}
-                      </span>
-                      <span className="mt-1 block text-[13.5px] text-fg-3">
-                        {role.organisation}
-                      </span>
+                      <span className="tnum block text-[13px] font-medium text-fg-3">{role.period}</span>
+                      <span className="mt-1 block text-[16px] leading-snug font-semibold">{role.title}</span>
+                      <span className="mt-0.5 block text-[14.5px] text-fg-2">{role.organisation}</span>
                     </span>
-                    <span className="pt-0.5 text-fg-3">
-                      {wide ? (
-                        <IconArrowRight
-                          className={`transition-all duration-300 ${
-                            isOn ? "text-red-hi opacity-100" : "opacity-0 group-hover:opacity-60"
-                          }`}
-                        />
-                      ) : (
-                        <IconPlus
-                          className={`transition-transform duration-300 ${isOn ? "rotate-45 text-fg" : ""}`}
-                        />
-                      )}
-                    </span>
+                    {!wide ? (
+                      <IconPlus
+                        className={`mt-1 shrink-0 text-fg-3 transition-transform duration-200 ${isOn ? "rotate-45" : ""}`}
+                      />
+                    ) : null}
                   </button>
 
-                  {/* Accordion body (small screens) */}
                   {!wide ? (
                     <div id={`role-detail-${i}`}>
                       <AnimatePresence initial={false}>
@@ -117,10 +100,10 @@ export function Experience() {
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: "auto", opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: reduced ? 0 : 0.45, ease: EASE }}
+                            transition={{ duration: reduced ? 0 : 0.35, ease: EASE }}
                             className="overflow-hidden"
                           >
-                            <div className="pb-8">
+                            <div className="border-t border-line-2 px-5 pt-5 pb-6">
                               <RoleDetail role={role} compact />
                             </div>
                           </motion.div>
@@ -134,23 +117,22 @@ export function Experience() {
           </div>
         </Reveal>
 
-        {/* Selected role (large screens) — starts on the column-7 line */}
         {wide ? (
           <div
             id="role-panel"
             role="tabpanel"
             aria-labelledby={`role-tab-${selected}`}
             tabIndex={0}
-            className="col-span-6 col-start-7 outline-none"
+            className="col-span-7 outline-none"
           >
-            <div className="sticky top-28">
+            <div className="sticky top-24 rounded-lg border border-line-2 bg-raised p-8">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={selected}
-                  initial={reduced ? false : { opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: reduced ? 0 : 0.35, ease: EASE }}
+                  exit={{ opacity: 0, y: -4 }}
+                  transition={{ duration: reduced ? 0 : 0.25, ease: EASE }}
                 >
                   <RoleDetail role={roles[selected]} />
                 </motion.div>
@@ -165,52 +147,41 @@ export function Experience() {
 
 function RoleDetail({ role, compact = false }: { role: Role; compact?: boolean }) {
   return (
-    <article className={compact ? "" : "border-t border-line-2 pt-6"}>
+    <article>
       {!compact ? (
         <>
-          <div className="flex items-baseline justify-between gap-6">
-            <span className="label !text-red-hi">{role.domain}</span>
-            <span className="label tnum">{role.period}</span>
-          </div>
-          <h3 className="display mt-6 text-[2.2rem]">{role.title}</h3>
-          <p className="mt-3 text-[15px] text-fg-2">
+          <p className="text-[13.5px] font-semibold text-red-hi">{role.domain}</p>
+          <h3 className="display mt-2 text-[1.75rem]">{role.title}</h3>
+          <p className="mt-1.5 text-[15.5px] text-fg-2">
             {role.organisation}
-            {role.place ? <span className="text-fg-3"> · {role.place}</span> : null}
+            {role.place ? ` · ${role.place}` : ""}
+            <span className="text-fg-4"> · </span>
+            <span className="tnum text-fg-3">{role.period}</span>
           </p>
         </>
       ) : (
-        <span className="label !text-red-hi">
+        <p className="text-[13.5px] font-semibold text-red-hi">
           {role.domain}
-          {role.place ? <span className="!text-fg-3"> · {role.place}</span> : null}
-        </span>
+          {role.place ? <span className="font-normal text-fg-3"> · {role.place}</span> : null}
+        </p>
       )}
 
-      <p className={`serif text-pretty leading-[1.5] text-fg italic ${compact ? "mt-4 text-[1.15rem]" : "mt-7 text-[1.3rem]"}`}>
+      <p className={`text-pretty leading-[1.65] text-fg ${compact ? "mt-3 text-[16px]" : "mt-5 text-[17px]"}`}>
         {role.summary}
       </p>
 
-      <div className="label mt-9">Key work</div>
-      <ol className="mt-3 border-t border-line">
+      <ul className="mt-5 space-y-3">
         {role.work.map((item, i) => (
-          <li
-            key={i}
-            className="grid grid-cols-[2.25rem_1fr] border-b border-line py-4 text-[15px] leading-[1.7] text-fg-2"
-          >
-            <span className="tnum pt-[3px] text-[12px] font-semibold text-fg-4">
-              {String(i + 1).padStart(2, "0")}
-            </span>
+          <li key={i} className="flex gap-3 text-[15.5px] leading-[1.65] text-fg-2">
+            <span aria-hidden className="mt-[0.62em] h-1.5 w-1.5 shrink-0 rounded-full bg-red-hi" />
             <span className="text-pretty">{item}</span>
           </li>
         ))}
-      </ol>
+      </ul>
 
-      <div className="label mt-9">Skills</div>
-      <ul className="mt-3 flex flex-wrap gap-2">
+      <ul className="mt-6 flex flex-wrap gap-2">
         {role.skills.map((skill) => (
-          <li
-            key={skill}
-            className="flex h-8 items-center border border-line-2 px-3 text-[13px] text-fg-2"
-          >
+          <li key={skill} className="rounded-md border border-line-2 bg-raised-2 px-3 py-1.5 text-[13.5px] text-fg-2">
             {skill}
           </li>
         ))}

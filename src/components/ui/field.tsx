@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 
 /** Square, 48px inputs on a slightly lifted ground; the border whitens on focus. */
 const inputBase =
-  "w-full rounded-none border bg-raised px-4 text-[15px] text-fg placeholder:text-fg-4 transition-colors duration-300 outline-none hover:border-line-3 focus:border-fg";
+  "w-full rounded-md border bg-raised px-4 text-[15px] text-fg placeholder:text-fg-4 transition-colors duration-200 outline-none hover:border-line-3 focus:border-fg-3";
 
 export function Field({
   label,
@@ -25,11 +25,11 @@ export function Field({
 
   return (
     <div>
-      <div className="mb-2.5 flex items-baseline justify-between gap-4">
-        <label htmlFor={htmlFor} className="label !text-fg-2">
+      <div className="mb-2 flex items-baseline justify-between gap-4">
+        <label htmlFor={htmlFor} className="text-[14px] font-medium text-fg">
           {label}
         </label>
-        {optional ? <span className="label !tracking-[0.12em] !text-fg-4">Optional</span> : null}
+        {optional ? <span className="text-[12.5px] text-fg-4">Optional</span> : null}
       </div>
 
       {children}

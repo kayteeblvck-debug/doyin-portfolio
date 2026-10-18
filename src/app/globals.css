@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   Design tokens — "Counsel"
-   A dark, precise, professional system: near-black ground, white type, one
-   restrained red. Everything sits on a single 12-column grid whose column
-   lines are faintly visible behind the page.
+   Design tokens
+   Dark, calm and professional: near-black ground, white headings in a solid
+   grotesque, soft grey body copy, and a single red used sparingly.
    ========================================================================== */
 
 :root {
-  --bg: #0b0b0b;
-  --raised: #121212;
-  --raised-2: #181818;
-  --fg: #f2f1ee;
-  --fg-2: #b3b1ac;
-  --fg-3: #7d7b76;
-  --fg-4: #52504c;
-  --line: rgba(255, 255, 255, 0.085);
-  --line-2: rgba(255, 255, 255, 0.16);
-  --line-3: rgba(255, 255, 255, 0.34);
-  --guide: rgba(255, 255, 255, 0.035);
+  --bg: #0c0c0c;
+  --band: #111111;
+  --raised: #151515;
+  --raised-2: #1b1b1b;
+  --fg: #f4f4f2;
+  --fg-2: #b9b8b4;
+  --fg-3: #8a8985;
+  --fg-4: #5c5b58;
+  --line: #232323;
+  --line-2: #2e2e2e;
+  --line-3: #4a4a4a;
   --red: #c8102e;
-  --red-hi: #e5384c;
+  --red-hi: #e33a4e;
   color-scheme: dark;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-band: var(--band);
   --color-raised: var(--raised);
   --color-raised-2: var(--raised-2);
   --color-fg: var(--fg);
@@ -38,10 +38,7 @@
   --color-red: var(--red);
   --color-red-hi: var(--red-hi);
 
-  --font-serif: var(--font-newsreader), "Newsreader", Georgia, serif;
-  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
-
-  --ease-sharp: cubic-bezier(0.22, 1, 0.36, 1);
+  --font-sans: var(--font-archivo), "Archivo", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -57,8 +54,7 @@
   body {
     background-color: var(--bg);
     color: var(--fg);
-    font-family: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
-    font-feature-settings: "ss01" on;
+    font-family: var(--font-archivo), "Archivo", ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -70,58 +66,45 @@
   }
 
   :focus-visible {
-    outline: 1px solid var(--fg);
-    outline-offset: 4px;
+    outline: 2px solid var(--red-hi);
+    outline-offset: 3px;
   }
 }
 
 @layer components {
-  /* Headings and numerals — Newsreader, set tight */
+  /* Headings — Archivo, heavy and slightly narrow for a solid block letter */
   .display {
-    font-family: var(--font-newsreader), "Newsreader", Georgia, serif;
-    font-weight: 400;
-    letter-spacing: -0.022em;
-    line-height: 1.02;
-    font-optical-sizing: auto;
+    font-family: var(--font-archivo), "Archivo", ui-sans-serif, sans-serif;
+    font-weight: 700;
+    font-stretch: 92%;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
-  .serif {
-    font-family: var(--font-newsreader), "Newsreader", Georgia, serif;
-    font-optical-sizing: auto;
-  }
-
-  /* Small uppercase label used for every index, eyebrow and field label */
-  .label {
-    font-family: var(--font-manrope), "Manrope", ui-sans-serif, sans-serif;
-    font-size: 0.6875rem;
+  /* Small heading above each section title */
+  .eyebrow {
+    font-size: 0.8125rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
-    line-height: 1.4;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--fg-3);
+    color: var(--red-hi);
   }
 
   .tnum {
     font-variant-numeric: tabular-nums lining-nums;
   }
 
-  /* Link with a quiet underline that brightens on hover */
-  .ink-link {
+  /* Underlined text link */
+  .text-link {
     text-decoration-line: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.3em;
+    text-underline-offset: 0.25em;
     text-decoration-color: var(--line-3);
-    transition: text-decoration-color 0.3s var(--ease-sharp), color 0.3s var(--ease-sharp);
+    transition: text-decoration-color 0.2s ease, color 0.2s ease;
   }
 
-  .ink-link:hover {
+  .text-link:hover {
     text-decoration-color: var(--red-hi);
-  }
-
-  /* Outlined numerals for the principles */
-  .numeral-outline {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--line-3);
   }
 
   .text-balance {

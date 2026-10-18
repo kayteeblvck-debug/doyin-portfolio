@@ -1,43 +1,30 @@
 "use client";
 
 import { education, sections } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 
-/**
- * A three-column register aligned to the bays:
- * period (col 1) · qualification (col 4) · institution and result (col 7–12).
- */
 export function Education() {
   return (
-    <Section id="education">
+    <Section id="education" band>
       <SectionHead {...sections.education} />
 
-      {/* Column heads — large screens only */}
-      <div className={`${GRID} hidden pb-4 md:grid`}>
-        <span className="label md:col-span-3">Period</span>
-        <span className="label md:col-span-3">Qualification</span>
-        <span className="label md:col-span-6">Institution &amp; result</span>
-      </div>
-
-      <ol className="border-b border-line">
+      <ol className="space-y-4">
         {education.map((item, i) => (
           <li key={item.award}>
-            <Reveal delay={0.06 * i} className={`${GRID} gap-y-3 border-t border-line py-8`}>
-              <span className="label tnum col-span-4 pt-1.5 !tracking-[0.12em] md:col-span-3">
-                {item.period}
-              </span>
-              <h3 className="display col-span-4 text-[1.75rem] md:col-span-3">{item.award}</h3>
-              <div className="col-span-4 md:col-span-6">
-                <p className="text-[15.5px] font-semibold text-fg">{item.school}</p>
-                <p className="mt-1.5 text-[15px] text-fg-2">{item.grade}</p>
+            <Reveal
+              delay={0.05 * i}
+              className="grid gap-x-8 gap-y-2 rounded-lg border border-line-2 bg-raised p-6 sm:p-7 md:grid-cols-[10rem_1fr_auto] md:items-baseline"
+            >
+              <span className="tnum text-[14px] font-semibold text-fg-3">{item.period}</span>
+              <div>
+                <h3 className="display text-[1.3rem]">{item.award}</h3>
+                <p className="mt-1 text-[15.5px] text-fg-2">{item.school}</p>
                 {item.detail ? (
-                  <p className="text-pretty mt-3 max-w-[34rem] text-[14px] leading-relaxed text-fg-3">
-                    {item.detail}
-                  </p>
+                  <p className="text-pretty mt-2 text-[14.5px] leading-relaxed text-fg-3">{item.detail}</p>
                 ) : null}
               </div>
+              <p className="text-[15px] font-semibold md:max-w-[18rem] md:text-right">{item.grade}</p>
             </Reveal>
           </li>
         ))}

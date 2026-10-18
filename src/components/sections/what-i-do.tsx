@@ -1,60 +1,46 @@
 "use client";
 
 import { capabilities, sections } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 
-/**
- * Four practice areas as a 2 × 2 matrix. Each cell is six columns wide, so
- * the two cells in a row start on the column-1 and column-7 guide lines.
- */
 export function WhatIDo() {
   return (
     <Section id="capabilities">
       <SectionHead {...sections.capabilities} />
 
-      <ol className={`${GRID} gap-y-16`}>
+      <ol className="grid gap-5 md:grid-cols-2">
         {capabilities.map((capability, i) => (
-          <li key={capability.title} className="col-span-4 md:col-span-6">
-            <Reveal delay={0.06 * (i % 2)} className="group relative h-full border-t border-line-2 pt-7">
-              {/* Hover: the top rule turns red from the left */}
-              <span
-                aria-hidden
-                className="absolute -top-px left-0 h-px w-full origin-left scale-x-0 bg-red-hi transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-x-100"
-              />
-
-              <div className="flex items-baseline justify-between gap-6">
-                <span className="label tnum !text-red-hi">{String(i + 1).padStart(2, "0")}</span>
-                <span className="label">{capability.pointsLabel}</span>
-              </div>
-
-              <h3 className="display mt-6 text-[1.9rem] sm:text-[2.15rem]">{capability.title}</h3>
-              <p className="text-pretty mt-4 max-w-[30rem] text-[16px] leading-[1.7] text-fg-2">
+          <li key={capability.title}>
+            <Reveal
+              delay={0.05 * (i % 2)}
+              className="h-full rounded-lg border border-line-2 bg-raised p-7 transition-colors duration-300 hover:border-line-3 sm:p-8"
+            >
+              <span className="tnum text-[14px] font-semibold text-red-hi">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3 className="display mt-3 text-[1.5rem]">{capability.title}</h3>
+              <p className="text-pretty mt-3 text-[16px] leading-[1.65] text-fg-2">
                 {capability.description}
               </p>
 
+              <p className="mt-6 text-[13px] font-semibold text-fg-3">{capability.pointsLabel}</p>
               {capability.pointsStyle === "chips" ? (
-                <ul className="mt-8 grid grid-cols-2 border-t border-l border-line">
+                <ul className="mt-3 flex flex-wrap gap-2">
                   {capability.points.map((point) => (
                     <li
                       key={point}
-                      className="border-r border-b border-line px-4 py-3.5 text-[14px] font-medium text-fg transition-colors duration-300 hover:bg-raised"
+                      className="rounded-md border border-line-2 bg-raised-2 px-3 py-1.5 text-[14px] font-medium"
                     >
                       {point}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <ul className="mt-8 border-t border-line">
-                  {capability.points.map((point, j) => (
-                    <li
-                      key={point}
-                      className="grid grid-cols-[2.25rem_1fr] border-b border-line py-3.5 text-[14.5px] leading-[1.65] text-fg-2"
-                    >
-                      <span className="tnum text-[12px] font-semibold text-fg-4">
-                        {String.fromCharCode(97 + j)}.
-                      </span>
+                <ul className="mt-3 space-y-3">
+                  {capability.points.map((point) => (
+                    <li key={point} className="flex gap-3 text-[15px] leading-[1.6] text-fg-2">
+                      <span aria-hidden className="mt-[0.6em] h-1.5 w-1.5 shrink-0 rounded-full bg-red-hi" />
                       <PointText text={point} />
                     </li>
                   ))}

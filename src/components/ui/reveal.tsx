@@ -33,30 +33,3 @@ export function Reveal({
     </motion.div>
   );
 }
-
-/** A 1px rule that draws from the left edge when it scrolls into view. */
-export function Rule({
-  className = "",
-  tone = "line",
-  delay = 0,
-}: {
-  className?: string;
-  tone?: "line" | "strong" | "red";
-  delay?: number;
-}) {
-  const reduced = useReducedMotion();
-  const colour = { line: "bg-line", strong: "bg-line-2", red: "bg-red" }[tone];
-
-  if (reduced) return <div aria-hidden className={`h-px ${colour} ${className}`} />;
-
-  return (
-    <motion.div
-      aria-hidden
-      className={`h-px origin-left ${colour} ${className}`}
-      initial={{ scaleX: 0 }}
-      whileInView={{ scaleX: 1 }}
-      viewport={{ once: true, amount: 0.8 }}
-      transition={{ duration: 1.1, delay, ease: EASE }}
-    />
-  );
-}

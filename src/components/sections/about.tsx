@@ -1,44 +1,33 @@
 "use client";
 
 import { about, site } from "@/lib/content";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { Reveal } from "@/components/ui/reveal";
 
 export function About() {
-  const [lede, ...rest] = about.paragraphs;
-
   return (
-    <Section id="about">
-      <SectionHead number={about.number} eyebrow={about.eyebrow} heading={about.heading} />
-
-      <div className={`${GRID} gap-y-14`}>
-        {/* Body — starts on column 4 with the heading above it */}
-        <div className="col-span-4 md:col-span-9 md:col-start-4 lg:col-span-6 lg:col-start-4">
-          <Reveal>
-            <p className="serif text-pretty text-[1.4rem] leading-[1.55] text-fg">{lede}</p>
-          </Reveal>
-          <div className="mt-8 space-y-6">
-            {rest.map((paragraph, i) => (
-              <Reveal key={i} delay={0.05 * i}>
-                <p className="text-pretty text-[16.5px] leading-[1.8] text-fg-2">{paragraph}</p>
-              </Reveal>
+    <Section id="about" band>
+      <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
+        <div className="lg:col-span-7">
+          <SectionHead eyebrow={about.eyebrow} heading={about.heading} />
+          <Reveal className="-mt-2 space-y-5">
+            {about.paragraphs.map((paragraph, i) => (
+              <p key={i} className="text-pretty text-[17px] leading-[1.75] text-fg-2">
+                {paragraph}
+              </p>
             ))}
-          </div>
+          </Reveal>
         </div>
 
-        {/* Aside — the last bay, held in view while the body scrolls */}
-        <aside className="col-span-4 md:col-span-9 md:col-start-4 lg:col-span-3 lg:col-start-10">
+        <aside className="lg:col-span-5 lg:pt-[7.5rem]">
           <Reveal className="lg:sticky lg:top-28">
-            <div className="border-t border-line-2 pt-6">
-              <div className="label">In her words</div>
-              <blockquote className="serif mt-5 text-[1.45rem] leading-[1.4] text-fg italic">
-                <span aria-hidden className="text-red-hi">&ldquo;</span>
-                {about.pullQuote}
-                <span aria-hidden className="text-red-hi">&rdquo;</span>
-              </blockquote>
-              <p className="label mt-6 !text-fg-2">{site.name}</p>
-            </div>
+            <blockquote className="rounded-lg border border-line-2 bg-raised p-8">
+              <span aria-hidden className="display block text-[3.5rem] leading-[0.6] text-red-hi">
+                &ldquo;
+              </span>
+              <p className="mt-4 text-[1.35rem] leading-[1.45] font-semibold">{about.pullQuote}</p>
+              <footer className="mt-6 text-[14px] text-fg-3">— {site.name}</footer>
+            </blockquote>
           </Reveal>
         </aside>
       </div>

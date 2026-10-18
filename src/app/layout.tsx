@@ -1,22 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Newsreader } from "next/font/google";
+import { Archivo } from "next/font/google";
 import { contact, site } from "@/lib/content";
-import { GridGuides } from "@/components/ui/grid";
 import "./globals.css";
 
-/** Headings and numerals — a sharp, optically-sized text serif. */
-const newsreader = Newsreader({
+/** One family for the whole site: solid headings, highly readable text. */
+const archivo = Archivo({
   subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["opsz"],
-  variable: "--font-newsreader",
-  display: "swap",
-});
-
-/** Body and interface — a clean, professional grotesque. */
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-manrope",
+  axes: ["wdth"],
+  variable: "--font-archivo",
   display: "swap",
 });
 
@@ -74,7 +65,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b0b0b",
+  themeColor: "#0c0c0c",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -122,14 +113,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
       </head>
-      <body className={`${newsreader.variable} ${manrope.variable} antialiased`}>
+      <body className={`${archivo.variable} antialiased`}>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:bg-fg focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-bg"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:rounded focus:bg-fg focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-bg"
         >
           Skip to content
         </a>
-        <GridGuides />
         {children}
       </body>
     </html>

@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useState } from "react";
 import { sections } from "@/lib/content";
 import type { Review } from "@/lib/types";
-import { GRID } from "@/components/ui/grid";
 import { Section, SectionHead } from "@/components/ui/section";
 import { EASE, Reveal } from "@/components/ui/reveal";
 import { Button } from "@/components/ui/button";
@@ -63,7 +62,7 @@ export function Reviews() {
   };
 
   return (
-    <Section id="reviews">
+    <Section id="reviews" band>
       <SectionHead
         {...sections.reviews}
         aside={
@@ -80,9 +79,9 @@ export function Reviews() {
         }
       />
 
-      {/* Form — opens above the reviews, set in bays two to four */}
-      <div id="review-form-panel" className={GRID}>
-        <div className="col-span-4 md:col-span-9 md:col-start-4">
+      {/* Form — opens above the reviews */}
+      <div id="review-form-panel">
+        <div>
           <AnimatePresence initial={false}>
             {formOpen ? (
               <motion.div
@@ -92,8 +91,10 @@ export function Reviews() {
                 transition={{ duration: reduced ? 0 : 0.5, ease: EASE }}
                 className="overflow-hidden"
               >
-                <div className="pb-20">
-                  <ReviewForm onAdded={handleAdded} />
+                <div className="pb-8">
+                  <div className="rounded-lg border border-line-2 bg-raised p-6 sm:p-8">
+                    <ReviewForm onAdded={handleAdded} />
+                  </div>
                 </div>
               </motion.div>
             ) : null}
@@ -102,9 +103,9 @@ export function Reviews() {
       </div>
 
       {loading ? (
-        <div aria-busy aria-label="Loading reviews" className={`${GRID} gap-y-10`}>
-          {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="col-span-4 border-t border-line-2 pt-6 md:col-span-6 lg:col-span-3">
+        <div aria-busy aria-label="Loading reviews" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {[0, 1, 2].map((i) => (
+            <div key={i} className="rounded-lg border border-line-2 bg-raised p-7">
               <div className="h-2.5 w-20 animate-pulse bg-line" />
               <div className="mt-6 space-y-3">
                 <div className="h-3 w-full animate-pulse bg-line" />
@@ -115,31 +116,31 @@ export function Reviews() {
           ))}
         </div>
       ) : loadError ? (
-        <div className={GRID}>
-          <div className="col-span-4 border-t border-line-2 pt-6 md:col-span-9 md:col-start-4">
+        <div>
+          <div className="rounded-lg border border-line-2 bg-raised p-7">
             <p className="text-[16px] text-fg-2">Reviews could not be loaded right now.</p>
             <button
               onClick={() => {
                 setLoading(true);
                 void load();
               }}
-              className="ink-link mt-3 text-[14px] font-semibold"
+              className="text-link mt-3 text-[15px] font-semibold"
             >
               Try again
             </button>
           </div>
         </div>
       ) : reviews.length === 0 ? (
-        <Reveal className={GRID}>
-          <div className="col-span-4 border-t border-line-2 pt-6 md:col-span-9 md:col-start-4">
-            <p className="display text-[1.75rem]">No reviews yet.</p>
-            <p className="mt-3 max-w-[34rem] text-[16px] leading-relaxed text-fg-2">
+        <Reveal>
+          <div className="rounded-lg border border-dashed border-line-3 bg-raised/60 px-7 py-10 text-center">
+            <p className="display text-[1.4rem]">No reviews yet.</p>
+            <p className="mx-auto mt-2 max-w-[34rem] text-[16px] leading-relaxed text-fg-2">
               If we have worked together, yours would be the first.
             </p>
           </div>
         </Reveal>
       ) : (
-        <ul className={`${GRID} gap-y-14`}>
+        <ul className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence initial={false}>
             {reviews.map((review, i) => (
               <ReviewItem key={review.id} review={review} index={i} />
@@ -188,13 +189,13 @@ function ReviewItem({ review, index }: { review: Review; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: reduced ? 0 : 0.6, delay: reduced ? 0 : Math.min(index, 5) * 0.05, ease: EASE }}
-      className="col-span-4 flex flex-col border-t border-line-2 pt-6 md:col-span-6 lg:col-span-3"
+      className="flex flex-col rounded-lg border border-line-2 bg-raised p-7"
     >
       <Stars rating={review.rating} />
-      <blockquote className="serif text-pretty mt-6 flex-1 text-[1.2rem] leading-[1.5] break-words whitespace-pre-wrap text-fg">
+      <blockquote className="text-pretty mt-5 flex-1 text-[16.5px] leading-[1.65] break-words whitespace-pre-wrap text-fg">
         &ldquo;{review.message}&rdquo;
       </blockquote>
-      <div className="mt-8 border-t border-line pt-4">
+      <div className="mt-6 border-t border-line-2 pt-4">
         <p className="text-[14px] font-semibold break-words">{name}</p>
         {detail ? <p className="mt-1 text-[13px] break-words text-fg-3">{detail}</p> : null}
       </div>
@@ -257,12 +258,12 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: reduced ? 0 : 0.5, ease: EASE }}
         role="status"
-        className="flex items-center gap-5 border-t border-line-2 pt-8"
+        className="flex items-center gap-5 py-2"
       >
-        <span className="grid h-11 w-11 shrink-0 place-items-center border border-line-2 text-red-hi">
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line-3 text-red-hi">
           <IconCheck width={18} height={18} />
         </span>
-        <p className="display text-[1.6rem]">{notice ?? "Thank you — your review is live."}</p>
+        <p className="display text-[1.35rem]">{notice ?? "Thank you — your review is live."}</p>
       </motion.div>
     );
   }
@@ -270,13 +271,13 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
   const ratingShown = hoverRating || form.rating;
 
   return (
-    <form onSubmit={submit} noValidate className="relative border-t border-line-2 pt-8">
+    <form onSubmit={submit} noValidate className="relative">
       <Honeypot value={form.website} onChange={(v) => set("website", v)} />
 
       {/* Rating and anonymity share the first row */}
       <div className="flex flex-wrap items-end justify-between gap-6">
         <div>
-          <span id="review-rating-label" className="label mb-2.5 block !text-fg-2">
+          <span id="review-rating-label" className="mb-2 block text-[14px] font-medium">
             Rating
           </span>
           <div
@@ -286,7 +287,7 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
             className="flex items-center"
             onMouseLeave={() => setHoverRating(0)}
           >
-            <div className="flex border border-line-2">
+            <div className="flex overflow-hidden rounded-md border border-line-2">
               {[1, 2, 3, 4, 5].map((star) => {
                 const active = star <= ratingShown;
                 return (
@@ -299,7 +300,7 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
                     onFocus={() => setHoverRating(star)}
                     onBlur={() => setHoverRating(0)}
                     onClick={() => set("rating", star)}
-                    className="grid h-12 w-12 place-items-center border-l border-line-2 bg-raised transition-colors duration-200 first:border-l-0 hover:bg-raised-2"
+                    className="grid h-12 w-12 place-items-center border-l border-line-2 bg-raised-2 transition-colors duration-200 first:border-l-0 hover:bg-[#222]"
                   >
                     <svg
                       aria-hidden
@@ -337,7 +338,7 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
           />
           <span
             aria-hidden
-            className="grid h-5 w-5 place-items-center border border-line-3 text-transparent transition-colors duration-300 group-hover:border-fg peer-checked:border-fg peer-checked:bg-fg peer-checked:text-bg peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-fg"
+            className="grid h-5 w-5 place-items-center rounded border border-line-3 text-transparent transition-colors duration-300 group-hover:border-fg peer-checked:border-fg peer-checked:bg-fg peer-checked:text-bg peer-focus-visible:outline peer-focus-visible:outline-1 peer-focus-visible:outline-offset-4 peer-focus-visible:outline-fg"
           >
             <IconCheck width={12} height={12} />
           </span>
@@ -347,7 +348,7 @@ function ReviewForm({ onAdded }: { onAdded: (review: Review | null) => void }) {
         </label>
       </div>
 
-      {/* Identity — three fields, one per bay; removed entirely when anonymous */}
+      {/* Identity — removed entirely when anonymous */}
       <AnimatePresence initial={false}>
         {!form.anonymous ? (
           <motion.div
