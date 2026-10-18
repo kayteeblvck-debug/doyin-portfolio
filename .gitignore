@@ -11,6 +11,12 @@ next-env.d.ts
 # production
 /build
 
+# local data (SQLite database lives here)
+/data/*.db
+/data/*.db-journal
+/data/*.db-wal
+/data/*.db-shm
+
 # env — NEVER commit real credentials
 .env
 .env.local
@@ -25,7 +31,7 @@ yarn-error.log*
 .vercel
 *.tsbuildinfo
 
-# Private files (CV etc.) — kept locally only
+# Private working files — kept locally only. (The published CV lives in public/.)
 /private/
 
 # Netlify env push file — secrets, never commit

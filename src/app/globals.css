@@ -1,1 +1,154 @@
 @import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — "Counsel"
+   A dark, precise, professional system: near-black ground, white type, one
+   restrained red. Everything sits on a single 12-column grid whose column
+   lines are faintly visible behind the page.
+   ========================================================================== */
+
+:root {
+  --bg: #0b0b0b;
+  --raised: #121212;
+  --raised-2: #181818;
+  --fg: #f2f1ee;
+  --fg-2: #b3b1ac;
+  --fg-3: #7d7b76;
+  --fg-4: #52504c;
+  --line: rgba(255, 255, 255, 0.085);
+  --line-2: rgba(255, 255, 255, 0.16);
+  --line-3: rgba(255, 255, 255, 0.34);
+  --guide: rgba(255, 255, 255, 0.035);
+  --red: #c8102e;
+  --red-hi: #e5384c;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raised: var(--raised);
+  --color-raised-2: var(--raised-2);
+  --color-fg: var(--fg);
+  --color-fg-2: var(--fg-2);
+  --color-fg-3: var(--fg-3);
+  --color-fg-4: var(--fg-4);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-line-3: var(--line-3);
+  --color-red: var(--red);
+  --color-red-hi: var(--red-hi);
+
+  --font-serif: var(--font-newsreader), "Newsreader", Georgia, serif;
+  --font-sans: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --ease-sharp: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    border-color: var(--line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-manrope), "Manrope", ui-sans-serif, system-ui, sans-serif;
+    font-feature-settings: "ss01" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--red);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--fg);
+    outline-offset: 4px;
+  }
+}
+
+@layer components {
+  /* Headings and numerals — Newsreader, set tight */
+  .display {
+    font-family: var(--font-newsreader), "Newsreader", Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.022em;
+    line-height: 1.02;
+    font-optical-sizing: auto;
+  }
+
+  .serif {
+    font-family: var(--font-newsreader), "Newsreader", Georgia, serif;
+    font-optical-sizing: auto;
+  }
+
+  /* Small uppercase label used for every index, eyebrow and field label */
+  .label {
+    font-family: var(--font-manrope), "Manrope", ui-sans-serif, sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--fg-3);
+  }
+
+  .tnum {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* Link with a quiet underline that brightens on hover */
+  .ink-link {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+    text-decoration-color: var(--line-3);
+    transition: text-decoration-color 0.3s var(--ease-sharp), color 0.3s var(--ease-sharp);
+  }
+
+  .ink-link:hover {
+    text-decoration-color: var(--red-hi);
+  }
+
+  /* Outlined numerals for the principles */
+  .numeral-outline {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-3);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+a,
+button,
+[role="button"],
+[role="tab"] {
+  cursor: pointer;
+}

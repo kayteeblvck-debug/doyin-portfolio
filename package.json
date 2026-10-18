@@ -2,17 +2,20 @@
   "name": "doyin-portfolio",
   "version": "0.1.0",
   "private": true,
-  "description": "Personal portfolio of Doyin",
+  "description": "Personal portfolio of Adedoyin Omolola \u2014 Real Estate Paralegal",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "email:test": "node --env-file=.env.local scripts/test-email.mjs",
+    "db:test": "node --env-file=.env.local scripts/test-db.mjs"
   },
   "dependencies": {
     "motion": "^13.0.0",
     "next": "^16.3.0",
+    "nodemailer": "^9.0.5",
+    "postgres": "^3.4.9",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
@@ -20,6 +23,7 @@
     "@netlify/plugin-nextjs": "^5.15.13",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^24.0.0",
+    "@types/nodemailer": "^7.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "tailwindcss": "^4.3.3",

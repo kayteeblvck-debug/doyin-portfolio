@@ -1,16 +1,30 @@
 # Netlify build configuration.
 #
-# The Next.js runtime plugin turns the App Router build into Netlify functions.
+# The Next.js runtime plugin turns the App Router build into Netlify functions,
+# so API routes (/api/reviews, /api/contact) work as server endpoints.
 
 [build]
   command = "npm run build"
   publish = ".next"
 
 [build.environment]
+  # node:sqlite and the Next 16 build both need a modern Node.
   NODE_VERSION = "22"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# The admin page and the API must never be indexed or cached.
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store"
 
 [[headers]]
   for = "/*"
